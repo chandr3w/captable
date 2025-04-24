@@ -23,7 +23,6 @@ plt.style.use('dark_background')
 # INITIAL SETUP
 # ==============================================================================
 st.set_page_config(layout="wide", page_title="Cap Table Simulator", page_icon="https://atas.vc/img/favicon.png")
-st.markdown('<a href="https://atas.vc/"><img src="https://atas.vc/img/logo.png" width="150"></a>', unsafe_allow_html=True)
 st.image('https://atas.vc/img/logo.png', width=200)
 st.markdown(
     "This open source model was developed by [Andrew Chan](https://www.linkedin.com/in/chandr3w/) "
