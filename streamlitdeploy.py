@@ -143,11 +143,26 @@ for rnd in rounds:
         s_calc = (R/(1-R))*(F0 + x_calc) if safe_invs else 0
         p_calc = (rnd["investment"]/(rnd["pre_money_valuation"]+rnd["investment"]))*T_final
         # record
+        # --- record each SAFE note’s individual conversion ---
         if safe_invs:
-            issued_classes[f"SAFE R{rnd['round_number']} Conversion"] = s_calc
+            # 1) compute aggregate R_total
+            R_total = sum(inv/cap for inv, cap in zip(safe_invs, safe_caps))
+            # 2) loop through outstanding_safe_notes
+            for idx_note, note in enumerate(outstanding_safe_notes, start=1):
+                inv_j = note["investment"]
+                cap_j = note["valuation_cap"]
+                r_j   = inv_j / cap_j
+                # each note’s shares
+                s_j   = (r_j / (1 - R_total)) * (F0 + x_calc)
+                key_j = f"SAFE R{rnd['round_number']} Note {idx_note} Conversion"
+                issued_classes[key_j] = s_j
+            # 3) clear so they don't convert again
             outstanding_safe_notes = []
+
+        # --- record priced‐equity & option‐pool as before ---
         issued_classes[f"Priced Equity R{rnd['round_number']}"] = p_calc
-        issued_classes[f"Option Pool R{rnd['round_number']}"] = x_calc
+        issued_classes[f"Option Pool R{rnd['round_number']}"]   = x_calc
+
         details = (
             f"Priced Round {rnd['round_number']}: Pre-money ${rnd['pre_money_valuation']:,.0f}, "
             f"Investment ${rnd['investment']:,.0f}. "
