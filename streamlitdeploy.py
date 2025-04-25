@@ -225,7 +225,7 @@ for idx, snap in enumerate(snapshots):
     sizes_hyp_s, labels_hyp_s = zip(*hyp_pairs)
 
     # Draw
-    fig, (ax_act, ax_hyp) = plt.subplots(1, 2, figsize=(12,6), facecolor='black', constrained_layout=True)
+    fig, (ax_act, ax_hyp) = plt.subplots(1, 2, figsize=(12,6), facecolor='black', constrained_layout=True, gridspec_kw={'width_ratios': [1, 1]})
     ax_act.pie(sizes_act_s, labels=labels_act_s,
                colors=[color_map[l] for l in labels_act_s],
                autopct="%1.1f%%", textprops={"color":"white","fontsize":12},
